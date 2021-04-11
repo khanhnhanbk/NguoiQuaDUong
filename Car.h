@@ -19,7 +19,7 @@ public:
     ~Car();
 };
 
-Car::Car(short x, short y, int len) : m_pos{x, y, 'O'}, m_lengthCar{len}
+Car::Car(short x, short y, int len) : m_pos{x, y, '.'}, m_lengthCar{len}
 {
 }
 void Car::setPrototype(short x, short y, int len)
@@ -36,17 +36,17 @@ void Car::drawCar()
     for (short i = 1; i < m_lengthCar; i++)
     {
 
-        Point tempt{m_pos.getX() + i, m_pos.getY(), 'O'};
+        Point tempt{m_pos.getX() + i, m_pos.getY(), '.'};
         tempt.drawPoint();
     }
 }
 void Car::clearCar()
 {
-    m_pos.drawPoint();
+    m_pos.clearPoint();
     for (short i = 1; i < m_lengthCar; i++)
     {
 
-        Point tempt{m_pos.getX() + i, m_pos.getY(), 'O'};
+        Point tempt{m_pos.getX() + i, m_pos.getY(), '.'};
         tempt.clearPoint();
     }
 }
@@ -59,7 +59,4 @@ void Car::move(int dx, int dy)
 void Car::swing(short w)
 {
     this->move(w, 0);
-    // Sleep(300);
-    this->move(-w, 0);
-    // Sleep(300);
 }

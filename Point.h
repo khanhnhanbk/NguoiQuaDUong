@@ -30,13 +30,27 @@ Point::~Point()
 }
 void Point::drawPoint()
 {
+    COORD p = GetConsoleCursorPosition(console);
     GotoXY(m_x, m_y);
+    COORD q = GetConsoleCursorPosition(console);
+    while (q.X != m_x || q.Y != m_y)
+    {
+        GotoXY(m_x, m_y);
+    };
     std::cout << m_symbol;
+    GotoXY(p.X, p.Y);
 }
 void Point::clearPoint()
 {
+    COORD p = GetConsoleCursorPosition(console);
     GotoXY(m_x, m_y);
+    COORD q = GetConsoleCursorPosition(console);
+    while (q.X != m_x || q.Y != m_y)
+    {
+        GotoXY(m_x, m_y);
+    };
     std::cout << ' ';
+    GotoXY(p.X, p.Y);
 }
 void Point::setPosition(short x, short y)
 {

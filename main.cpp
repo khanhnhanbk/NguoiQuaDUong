@@ -3,6 +3,7 @@
 #include <iostream>
 #include <conio.h>
 // #include <winuser.h>
+#include <thread>
 #include <ctype.h>
 #include "console.h"
 #include "point.h"
@@ -36,30 +37,16 @@ void ResetData()
             short posTmp = rand() % (WIDTH_CONSOLE - MAX_CAR_LENGTH) + 5;
             X[i].setPrototype(posTmp, i + 7, MAX_CAR_LENGTH);
             X[i].drawCar();
-            if (i % 3 == 0)
-                X[i].swing(3);
         }
     }
 }
-
-int main()
+void playerInput()
 {
-    //    DrawBoard(1, 1, 10, 10, 1, 1);
-    ShowConsoleCursor(false);
-    FixConsoleWindow();
-    GotoXY(0, 0);
-    Board board{5, 5, 100, 20};
-    POINT cur;
-    if (GetCursorPos(&cur))
-    {
-        board.draw(0, 0);
-    }
-    ResetData();
     while (true)
     {
         if (_kbhit())
         {
-        char ch = _getch();
+            char ch = _getch();
             switch (ch)
             {
             case 'a':
@@ -75,52 +62,38 @@ int main()
                 Y.move(0, 1);
                 break;
             case 'q':
-                return 0;
+                exit(1);
                 break;
             default:
                 break;
             }
         }
+    }
+}
+int main()
+{
+    //    DrawBoard(1, 1, 10, 10, 1, 1);
+    ShowConsoleCursor(false);
+    FixConsoleWindow();
+    GotoXY(0, 0);
+    Board board{5, 5, 100, 20};
+    // POINT cur;
+    board.draw(0, 0);
+    ResetData();
+    thread newThead(playerInput);
+    while (true)
+    {
+
         for (int i = 0; i < MAX_CAR; i++)
         {
             X[i].move(1, 0);
         }
-        Sleep(100);
-        for (int i = 0; i < MAX_CAR; i++)
-        {
-            X[i].move(1, 0);
-        }
-        Sleep(100);
-        for (int i = 0; i < MAX_CAR; i++)
-        {
-            X[i].move(1, 0);
-        }
-        Sleep(100);
-        for (int i = 0; i < MAX_CAR; i++)
-        {
-            X[i].move(1, 0);
-        }
-        Sleep(100);
+        Sleep(50);
         for (int i = 0; i < MAX_CAR; i++)
         {
             X[i].move(-1, 0);
         }
-        Sleep(100);
-        for (int i = 0; i < MAX_CAR; i++)
-        {
-            X[i].move(-1, 0);
-        }
-        Sleep(100);
-        for (int i = 0; i < MAX_CAR; i++)
-        {
-            X[i].move(-1, 0);
-        }
-        Sleep(100);
-        for (int i = 0; i < MAX_CAR; i++)
-        {
-            X[i].move(-1, 0);
-        }
-        Sleep(100);
+        Sleep(50);
     }
 
     std::getchar();
