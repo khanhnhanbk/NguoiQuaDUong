@@ -17,7 +17,7 @@ using namespace std;
 Car *X;                                       //Mảng chứa MAX_CAR xe
 Point Y{18, 19, 'Y'};                         // Đại diện người qua đường
 int cnt = 0;                                  //Biến hỗ trợ trong quá trình tăng tốc độ xe di chuyển
-int MOVING;                                   //Biến xác định hướng di chuyển của người
+char MOVING;                                  //Biến xác định hướng di chuyển của người
 int SPEED;                                    // Tốc độ xe chạy (xem như level)
 int HEIGH_CONSOLE = 100, WIDTH_CONSOLE = 100; // Độ rộng và độ cao của màn hình console
 bool STATE;
@@ -44,30 +44,37 @@ void playerInput()
 {
     while (true)
     {
-        if (_kbhit())
+        switch (MOVING)
         {
-            char ch = _getch();
-            switch (ch)
-            {
-            case 'a':
-                Y.move(-1, 0);
-                break;
-            case 'd':
-                Y.move(1, 0);
-                break;
-            case 'w':
-                Y.move(0, -1);
-                break;
-            case 's':
-                Y.move(0, 1);
-                break;
-            case 'q':
-                exit(1);
-                break;
-            default:
-                break;
-            }
+        case 'a':
+            Y.move(-1, 0);
+            break;
+        case 'd':
+            Y.move(1, 0);
+            break;
+        case 'w':
+            Y.move(0, -1);
+            break;
+        case 's':
+            Y.move(0, 1);
+            break;
+        case 'q':
+            exit(1);
+            break;
+        default:
+            break;
         }
+        for (int i = 0; i < MAX_CAR; i++)
+        {
+            X[i].move(1, 0);
+        }
+        MOVING = ' ';
+        Sleep(100);
+        for (int i = 0; i < MAX_CAR; i++)
+        {
+            X[i].move(-1, 0);
+        }
+        Sleep(100);
     }
 }
 int main()
@@ -83,17 +90,7 @@ int main()
     thread newThead(playerInput);
     while (true)
     {
-
-        for (int i = 0; i < MAX_CAR; i++)
-        {
-            X[i].move(1, 0);
-        }
-        Sleep(50);
-        for (int i = 0; i < MAX_CAR; i++)
-        {
-            X[i].move(-1, 0);
-        }
-        Sleep(50);
+        MOVING = getch();
     }
 
     std::getchar();
